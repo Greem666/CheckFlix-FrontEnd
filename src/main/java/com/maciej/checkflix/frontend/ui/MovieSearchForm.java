@@ -9,6 +9,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -47,10 +48,15 @@ public class MovieSearchForm extends FormLayout {
                 searchButton,
                 clearButton
         );
+        buttonsHBar.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
+        buttonsHBar.setWidth("600px");
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.add(searchFieldsHBar, buttonsHBar);
-        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        verticalLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+
+        add(verticalLayout);
+        this.setSizeUndefined();
 
         movieNameField.addKeyPressListener(Key.ENTER, event -> {
             fireEvent(new SearchEvent(this, movieSearchFormDtoBinder.getBean()));
@@ -71,8 +77,6 @@ public class MovieSearchForm extends FormLayout {
         movieNameField.addValueChangeListener(e -> {
             searchButton.setEnabled(movieNameField.getValue().length() > 0);
         });
-
-        add(verticalLayout);
     }
 
     private TextField createMovieNameSearchField() {
