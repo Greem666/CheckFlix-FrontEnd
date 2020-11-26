@@ -1,23 +1,18 @@
-package com.maciej.checkflix.frontend.ui;
+package com.maciej.checkflix.frontend.ui.moviesearchview;
 
-import com.maciej.checkflix.frontend.domain.MovieDto;
-import com.maciej.checkflix.frontend.domain.MovieSearchFormDto;
-import com.maciej.checkflix.frontend.service.BackEndService;
+import com.maciej.checkflix.frontend.domain.MovieSearch.MovieSearchFormDto;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 

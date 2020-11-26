@@ -1,4 +1,4 @@
-package com.maciej.checkflix.frontend.domain;
+package com.maciej.checkflix.frontend.domain.MovieSearch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

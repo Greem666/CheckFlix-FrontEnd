@@ -1,4 +1,4 @@
-package com.maciej.checkflix.frontend.domain;
+package com.maciej.checkflix.frontend.domain.MovieSearch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
