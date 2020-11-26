@@ -1,9 +1,9 @@
 package com.maciej.checkflix.frontend.client;
 
 import com.maciej.checkflix.frontend.config.BackEndConfig;
-import com.maciej.checkflix.frontend.domain.MovieDto;
+import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
+import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -53,6 +53,24 @@ public class BackEndClient {
         return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
                 .port(backEndConfig.getPort())
                 .path("v1/omdb/types")
+                .encode()
+                .build()
+                .toUri();
+    }
+
+    public MovieDetailsDto getMovieDetails(String movieImdbId) {
+        Optional<MovieDetailsDto> movieDetails = Optional.ofNullable(
+                restTemplate.getForObject(getMoviesDetailsUri(movieImdbId), MovieDetailsDto.class)
+        );
+
+        return movieDetails.orElseGet(MovieDetailsDto::new);
+    }
+
+    private URI getMoviesDetailsUri(String movieImdbId) {
+        return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
+                .port(backEndConfig.getPort())
+                .path("v1/omdb/movie")
+                .queryParam("movieImdbId", movieImdbId)
                 .encode()
                 .build()
                 .toUri();

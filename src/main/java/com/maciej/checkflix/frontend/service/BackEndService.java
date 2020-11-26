@@ -1,7 +1,8 @@
 package com.maciej.checkflix.frontend.service;
 
 import com.maciej.checkflix.frontend.client.BackEndClient;
-import com.maciej.checkflix.frontend.domain.MovieDto;
+import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
+import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,9 @@ public class BackEndService {
 
     public List<String> getMovieTypes() {
         return backEndClient.getMovieTypes();
+    }
+
+    public MovieDetailsDto getMovieDetails(String movieImdbId) {
+        return backEndClient.getMovieDetails(movieImdbId);
     }
 }
