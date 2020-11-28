@@ -9,6 +9,8 @@ function addCssBlock(block) {
 }
 import $css_0 from 'Frontend/styles/movie-search-view-styles.css';
 addCssBlock(`<custom-style><style>${$css_0}</style></custom-style>`);
+import $css_1 from 'Frontend/styles/main-layout-style.css';
+addCssBlock(`<custom-style><style>${$css_1}</style></custom-style>`);
 
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-list/iron-list.js';

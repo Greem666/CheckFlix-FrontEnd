@@ -89,7 +89,6 @@ public class MovieSearchForm extends FormLayout {
     private ComboBox<String> createMovieTypeComboBox(List<String> typeOptions) {
         movieTypeField.setPlaceholder("movie type");
         movieTypeField.setItems(typeOptions);
-        movieTypeField.setValue(typeOptions.get(0));
 
         return movieTypeField;
     }

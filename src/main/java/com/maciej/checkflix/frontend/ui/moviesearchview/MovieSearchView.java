@@ -64,6 +64,7 @@ public class MovieSearchView extends VerticalLayout {
     }
 
     private void setupGrid() {
+        foundMoviesGrid.setVisible(true);
         foundMoviesGrid.removeAllColumns();
 
         foundMoviesGrid.addComponentColumn(v -> {
@@ -104,11 +105,13 @@ public class MovieSearchView extends VerticalLayout {
                 searchCriteria.getYear(),
                 searchCriteria.getType());
         foundMoviesGrid.setItems(movies);
+        foundMoviesGrid.setVisible(true);
     }
 
     private void clearParagraphAndForm(MovieSearchForm movieSearchForm) {
         movieSearchForm.clearForm();
         setupGrid();
         foundMoviesGrid.setItems(new ArrayList<>());
+        foundMoviesGrid.setVisible(false);
     }
 }
