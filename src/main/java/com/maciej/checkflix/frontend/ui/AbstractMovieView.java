@@ -1,12 +1,8 @@
-package com.maciej.checkflix.frontend.ui.movieprovidersview;
+package com.maciej.checkflix.frontend.ui;
 
-import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
+import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
 import com.maciej.checkflix.frontend.service.BackEndService;
-import com.maciej.checkflix.frontend.ui.MainLayout;
-import com.maciej.checkflix.frontend.ui.moviedetailsview.MovieDetailsView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.accordion.Accordion;
-import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H1;
@@ -15,45 +11,23 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 
-@Route(value = "providers", layout = MainLayout.class)
-public class MovieProvidersView extends VerticalLayout implements HasUrlParameter<String>, BeforeLeaveObserver {
+public abstract class AbstractMovieView extends VerticalLayout implements HasUrlParameter<String>, BeforeLeaveObserver {
 
-    private BackEndService backEndService;
-    private String movieImdbId;
+    protected BackEndService backEndService;
+    protected String movieImdbId;
+    protected MovieDetailsDto movieDetailsDto;
+    protected String movieTitle;
 
-    public MovieProvidersView(BackEndService backEndService) {
+    public AbstractMovieView(BackEndService backEndService) {
         this.backEndService = backEndService;
-
-        H1 header = new H1("PROVIDERS");
-
-//        Accordion availableProviderTypes = new Accordion();
-
-        Details streaming = new Details("Streaming", new Span("Test streaming"));
-        streaming.setOpened(true);
-        streaming.addThemeVariants(DetailsVariant.FILLED, DetailsVariant.REVERSE);
-
-        Details rent = new Details("Rent", new Span("Test rent"));
-        rent.setOpened(true);
-        rent.addThemeVariants(DetailsVariant.FILLED, DetailsVariant.REVERSE);
-
-        Details buy = new Details("Buy", new Span("Test buy"));
-        buy.setOpened(true);
-        buy.addThemeVariants(DetailsVariant.FILLED, DetailsVariant.REVERSE);
-
-        add(header, streaming, rent, buy);
     }
-
-//    private void addProviderPanel(ProvidersDto providersDto) {
-//        Details providerPanel = new Details("Streaming", new Span("Test streaming"));
-//        providerPanel.setOpened(true);
-//        providerPanel.addThemeVariants(DetailsVariant.FILLED, DetailsVariant.REVERSE);
-//        add(providerPanel);
-//    }
 
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         this.movieImdbId = parameter;
-        add(new H2(movieImdbId));
+
+        this.movieDetailsDto = this.backEndService.getMovieDetails(this.movieImdbId);
+        this.movieTitle = this.movieDetailsDto.getTitle() + " (" + this.movieDetailsDto.getYear() + ")";
     }
 
     @Override
