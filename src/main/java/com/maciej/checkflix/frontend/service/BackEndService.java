@@ -1,28 +1,78 @@
 package com.maciej.checkflix.frontend.service;
 
-import com.maciej.checkflix.frontend.client.BackEndClient;
+import com.maciej.checkflix.frontend.client.MoviesBackEndClient;
+import com.maciej.checkflix.frontend.client.ProvidersBackEndClient;
+import com.maciej.checkflix.frontend.client.ReviewAnalyticsBackEndClient;
+import com.maciej.checkflix.frontend.client.WatchlistBackEndClient;
 import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
+import com.maciej.checkflix.frontend.domain.MovieProviders.CountryResultDto;
+import com.maciej.checkflix.frontend.domain.MovieReviews.ReviewResultDto;
 import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.maciej.checkflix.frontend.domain.watchlist.ProvidersWatchlistDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BackEndService {
 
-    @Autowired
-    private BackEndClient backEndClient;
+    private final MoviesBackEndClient moviesBackEndClient;
+    private final ProvidersBackEndClient providersBackEndClient;
+    private final WatchlistBackEndClient watchlistBackEndClient;
+    private final ReviewAnalyticsBackEndClient reviewAnalyticsBackEndClient;
 
     public List<MovieDto> getMoviesBy(String name, String year, String type) {
-        return backEndClient.getMoviesBy(name, year, type);
+        return moviesBackEndClient.getMoviesBy(name, year, type);
     }
 
     public List<String> getMovieTypes() {
-        return backEndClient.getMovieTypes();
+        return moviesBackEndClient.getMovieTypes();
     }
 
     public MovieDetailsDto getMovieDetails(String movieImdbId) {
-        return backEndClient.getMovieDetails(movieImdbId);
+        return moviesBackEndClient.getMovieDetails(movieImdbId);
+    }
+
+    public CountryResultDto getLocalProviders(String imdbId, String countryName) {
+        return providersBackEndClient.getMovieProviders(imdbId, countryName);
+    }
+
+    public List<String> getSupportedCountryProvidersList() {
+        return providersBackEndClient.getSupportedCountryProvidersList();
+    }
+
+    public List<ReviewResultDto> getReviewsFor(String movieImdbId) {
+        return providersBackEndClient.getReviewsFor(movieImdbId);
+    }
+
+    public List<ProvidersWatchlistDto> getProvidersWatchlistItems(String phrase) {
+        if (phrase == null || phrase.isEmpty()) {
+            return watchlistBackEndClient.getProviderWatchlistItems();
+        } else {
+            return watchlistBackEndClient.getProviderWatchlistItemsBy(phrase);
+        }
+    }
+
+    public void deleteItemFromProviderWatchlist(Long watchlistItemId) {
+        watchlistBackEndClient.deleteItemFromProviderWatchlist(watchlistItemId);
+    }
+
+    public void addUpdateItemFromProviderWatchlist(ProvidersWatchlistDto providersWatchlistDto) {
+        if (providersWatchlistDto.getId() != null) {
+            watchlistBackEndClient.updateItemOnProviderWatchlist(providersWatchlistDto);
+        } else {
+            watchlistBackEndClient.addNewItemToProviderWatchlist(providersWatchlistDto);
+        }
+    }
+
+    public List<String> getProviderTypes() {
+        return watchlistBackEndClient.getProviderTypes();
+    }
+
+    public byte[] getWordCloudForReviewsOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.getReviewAnalyticsFor(imdbId);
     }
 }
