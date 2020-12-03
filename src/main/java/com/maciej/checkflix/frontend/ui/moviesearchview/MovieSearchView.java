@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Route("")
-@PageTitle("CheckFlix movie search")
+@PageTitle("CheckFlix movie search engine")
 @CssImport("./styles/movie-search-view-styles.css")
 public class MovieSearchView extends VerticalLayout {
 
@@ -64,7 +64,6 @@ public class MovieSearchView extends VerticalLayout {
     }
 
     private void setupGrid() {
-        foundMoviesGrid.setVisible(true);
         foundMoviesGrid.removeAllColumns();
 
         foundMoviesGrid.addComponentColumn(v -> {
@@ -97,6 +96,7 @@ public class MovieSearchView extends VerticalLayout {
             }
         });
 
+        foundMoviesGrid.setVisible(false);
     }
 
     private void updateParagraphWithSearchResults(MovieSearchFormDto searchCriteria) {
@@ -112,6 +112,5 @@ public class MovieSearchView extends VerticalLayout {
         movieSearchForm.clearForm();
         setupGrid();
         foundMoviesGrid.setItems(new ArrayList<>());
-        foundMoviesGrid.setVisible(false);
     }
 }
