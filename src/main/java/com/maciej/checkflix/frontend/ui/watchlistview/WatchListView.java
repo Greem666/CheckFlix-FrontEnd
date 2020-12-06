@@ -17,14 +17,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.OptionalParameter;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.router.*;
 
 import java.util.List;
 
 @Route(value = "watchlist", layout = MainLayout.class)
+@PageTitle("WATCHLIST")
 public class WatchListView extends AbstractMovieView {
 
     private TextField filterField = new TextField();
@@ -39,6 +37,7 @@ public class WatchListView extends AbstractMovieView {
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         super.setParameter(event, parameter);
+        removeAll();
 
         H1 header = setUpHeader();
         configureFilter();

@@ -23,18 +23,80 @@ public class ReviewAnalyticsBackEndClient {
     private final RestTemplate restTemplate;
     private final BackEndConfig backEndConfig;
 
-    public byte[] getReviewAnalyticsFor(String imdbId) {
+    public byte[] getPositiveReviewAnalyticsFor(String imdbId) {
         Optional<ResponseEntity<byte[]>> providersWatchlistItems = Optional.of(
-                restTemplate.getForEntity(getProviderWatchlistItemsUri(imdbId), byte[].class)
+                restTemplate.getForEntity(getPositiveReviewAnalyticsForUri(imdbId), byte[].class)
         );
 
         return providersWatchlistItems.map(HttpEntity::getBody).orElse(new byte[0]);
     }
 
-    private URI getProviderWatchlistItemsUri(String imdbId) {
+    private URI getPositiveReviewAnalyticsForUri(String imdbId) {
         return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
                 .port(backEndConfig.getPort())
-                .path("analytics/v1/analyse/reviews")
+                .pathSegment("analytics", "v1" , "analyse", "reviews", "positive")
+                .queryParam("imdbId", imdbId)
+                .encode()
+                .build()
+                .toUri();
+    }
+
+    public byte[] getNeutralReviewAnalyticsFor(String imdbId) {
+        Optional<ResponseEntity<byte[]>> providersWatchlistItems = Optional.of(
+                restTemplate.getForEntity(getNeutralReviewAnalyticsForUri(imdbId), byte[].class)
+        );
+
+        return providersWatchlistItems.map(HttpEntity::getBody).orElse(new byte[0]);
+    }
+
+    private URI getNeutralReviewAnalyticsForUri(String imdbId) {
+        return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
+                .port(backEndConfig.getPort())
+                .path("analytics/v1/analyse/reviews/neutral")
+                .queryParam("imdbId", imdbId)
+                .encode()
+                .build()
+                .toUri();
+    }
+
+    public byte[] getNegativeReviewAnalyticsFor(String imdbId) {
+        Optional<ResponseEntity<byte[]>> providersWatchlistItems = Optional.of(
+                restTemplate.getForEntity(getNegativeReviewAnalyticsForUri(imdbId), byte[].class)
+        );
+
+        return providersWatchlistItems.map(HttpEntity::getBody).orElse(new byte[0]);
+    }
+
+    private URI getNegativeReviewAnalyticsForUri(String imdbId) {
+        return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
+                .port(backEndConfig.getPort())
+                .path("analytics/v1/analyse/reviews/negative")
+                .queryParam("imdbId", imdbId)
+                .encode()
+                .build()
+                .toUri();
+    }
+
+    public byte[] getReviewRatingsPieChartFor(String imdbId) {
+        Optional<ResponseEntity<byte[]>> providersWatchlistItems = Optional.of(
+                restTemplate.getForEntity(getReviewAnalyticsForUri(imdbId, "piechart"), byte[].class)
+        );
+
+        return providersWatchlistItems.map(HttpEntity::getBody).orElse(new byte[0]);
+    }
+
+    public byte[] addReviewRatingsDistributionFor(String imdbId) {
+        Optional<ResponseEntity<byte[]>> providersWatchlistItems = Optional.of(
+                restTemplate.getForEntity(getReviewAnalyticsForUri(imdbId, "histogram"), byte[].class)
+        );
+
+        return providersWatchlistItems.map(HttpEntity::getBody).orElse(new byte[0]);
+    }
+
+    private URI getReviewAnalyticsForUri(String imdbId, String chartType) {
+        return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
+                .port(backEndConfig.getPort())
+                .pathSegment("analytics", "v1", "analyse", "reviews", chartType)
                 .queryParam("imdbId", imdbId)
                 .encode()
                 .build()

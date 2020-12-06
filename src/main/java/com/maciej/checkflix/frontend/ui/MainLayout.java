@@ -54,7 +54,7 @@ public class MainLayout extends AppLayout {
         RouterLink reviewsLink = new RouterLink("Reviews", MovieReviewsView.class);
         reviewsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink reviewsAnalysisLink = new RouterLink("Reviews analysis", ReviewsAnalysisView.class);
+        RouterLink reviewsAnalysisLink = new RouterLink("Reviews analysis (SLOW!)", ReviewsAnalysisView.class);
         reviewsAnalysisLink.setHighlightCondition(HighlightConditions.sameLocation());
 
         RouterLink watchListLink = new RouterLink("Watchlist", WatchListView.class);

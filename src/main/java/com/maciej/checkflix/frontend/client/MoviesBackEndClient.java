@@ -7,6 +7,8 @@ import com.maciej.checkflix.frontend.domain.MovieReviews.ReviewResultDto;
 import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
 import com.maciej.checkflix.frontend.domain.watchlist.ProvidersWatchlistDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -76,6 +78,20 @@ public class MoviesBackEndClient {
                 .queryParam("movieImdbId", movieImdbId)
                 .encode()
                 .build()
+                .toUri();
+    }
+
+    public void prepareCachedImdbReviewsFor(String imdbId) {
+        restTemplate.getForEntity(prepareCachedImdbReviewsForUri(imdbId), byte[].class);
+    }
+
+    private URI prepareCachedImdbReviewsForUri(String imdbId) {
+        return UriComponentsBuilder.fromHttpUrl(backEndConfig.getBackEndUrl())
+                .port(backEndConfig.getPort())
+                .pathSegment("webscraper", "v1", "imdb", "reviews", "cache")
+                .queryParam("imdbId", imdbId)
+                .build()
+                .encode()
                 .toUri();
     }
 }

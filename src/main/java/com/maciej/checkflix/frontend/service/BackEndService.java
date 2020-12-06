@@ -10,7 +10,6 @@ import com.maciej.checkflix.frontend.domain.MovieReviews.ReviewResultDto;
 import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
 import com.maciej.checkflix.frontend.domain.watchlist.ProvidersWatchlistDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,7 +71,27 @@ public class BackEndService {
         return watchlistBackEndClient.getProviderTypes();
     }
 
-    public byte[] getWordCloudForReviewsOf(String imdbId) {
-        return reviewAnalyticsBackEndClient.getReviewAnalyticsFor(imdbId);
+    public byte[] getWordCloudForPositiveReviewsOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.getPositiveReviewAnalyticsFor(imdbId);
+    }
+
+    public byte[] getWordCloudForNeutralReviewsOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.getNeutralReviewAnalyticsFor(imdbId);
+    }
+
+    public byte[] getWordCloudForNegativeReviewsOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.getNegativeReviewAnalyticsFor(imdbId);
+    }
+
+    public byte[] getReviewRatingsPieChartOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.getReviewRatingsPieChartFor(imdbId);
+    }
+
+    public byte[] getReviewRatingsDistributionOf(String imdbId) {
+        return reviewAnalyticsBackEndClient.addReviewRatingsDistributionFor(imdbId);
+    }
+
+    public void prepareCachedImdbReviewsFor(String movieImdbId) {
+        moviesBackEndClient.prepareCachedImdbReviewsFor(movieImdbId);
     }
 }

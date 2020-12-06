@@ -7,12 +7,14 @@ function addCssBlock(block) {
  tpl.innerHTML = block;
  document.head.appendChild(tpl.content);
 }
-import $css_0 from 'Frontend/styles/movie-search-view-styles.css';
+import $css_0 from 'Frontend/styles/main-layout-style.css';
 addCssBlock(`<custom-style><style>${$css_0}</style></custom-style>`);
 import $css_1 from 'Frontend/styles/movie-providers-view.css';
 addCssBlock(`<custom-style><style>${$css_1}</style></custom-style>`);
-import $css_2 from 'Frontend/styles/main-layout-style.css';
+import $css_2 from 'Frontend/styles/movie-review-analysis-view-styles.css';
 addCssBlock(`<custom-style><style>${$css_2}</style></custom-style>`);
+import $css_3 from 'Frontend/styles/movie-search-view-styles.css';
+addCssBlock(`<custom-style><style>${$css_3}</style></custom-style>`);
 
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-list/iron-list.js';

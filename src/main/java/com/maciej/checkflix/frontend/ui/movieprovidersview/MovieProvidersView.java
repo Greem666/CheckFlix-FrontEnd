@@ -40,6 +40,7 @@ public class MovieProvidersView extends AbstractMovieView {
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         super.setParameter(event, parameter);
+        removeAll();
 
         setUpHeader();
         addCountrySelector();

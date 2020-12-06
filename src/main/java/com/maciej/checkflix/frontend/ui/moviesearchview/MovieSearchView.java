@@ -29,6 +29,7 @@ public class MovieSearchView extends VerticalLayout {
 
     public MovieSearchView(BackEndService backEndService) {
         this.backEndService = backEndService;
+        removeAll();
 
         Image checkflixLogo = new Image("img/logo.png", "Checkflix Logo");
         checkflixLogo.addClassName("checkflix-logo-image");

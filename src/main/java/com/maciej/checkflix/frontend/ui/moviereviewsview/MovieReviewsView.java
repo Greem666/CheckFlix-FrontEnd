@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Route(value = "reviews", layout = MainLayout.class)
+@PageTitle("TMDB REVIEWS")
 public class MovieReviewsView extends AbstractMovieView {
 
     public MovieReviewsView(BackEndService backEndService) {
@@ -32,6 +33,7 @@ public class MovieReviewsView extends AbstractMovieView {
     @Override
     public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
         super.setParameter(event, parameter);
+        removeAll();
 
         setUpHeader();
         addReviewPanels(backEndService.getReviewsFor(movieImdbId));
