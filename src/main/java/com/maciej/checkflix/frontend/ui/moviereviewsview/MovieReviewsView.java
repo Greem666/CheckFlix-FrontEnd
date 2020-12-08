@@ -6,6 +6,7 @@ import com.maciej.checkflix.frontend.domain.MovieReviews.ReviewResultDto;
 import com.maciej.checkflix.frontend.service.BackEndService;
 import com.maciej.checkflix.frontend.ui.AbstractMovieView;
 import com.maciej.checkflix.frontend.ui.MainLayout;
+import com.maciej.checkflix.frontend.ui.common.Divider;
 import com.maciej.checkflix.frontend.ui.movieprovidersview.utils.ProviderLinkFactory;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.UI;
@@ -41,7 +42,13 @@ public class MovieReviewsView extends AbstractMovieView {
     }
 
     private void setUpHeader() {
-        add(new H1("TMDB Reviews - " + movieTitle));
+        add(
+            new H1("TMDB Reviews - " + movieTitle),
+            new Span(
+                    "TMDB database user reviews. There's usually a lot less of them available than e.g. " +
+                            "IMDB ones, but they load faster. To check statistics related to IMDB ones, check " +
+                            "\"review analysis\" section."),
+            new Divider());
     }
 
     private void addReviewPanels(List<ReviewResultDto> reviewList) {

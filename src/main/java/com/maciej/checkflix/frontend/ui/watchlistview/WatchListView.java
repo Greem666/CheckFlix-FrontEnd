@@ -1,23 +1,22 @@
 package com.maciej.checkflix.frontend.ui.watchlistview;
 
-import com.maciej.checkflix.frontend.domain.MovieSearch.MovieDto;
-import com.maciej.checkflix.frontend.domain.MovieSearch.MovieSearchFormDto;
 import com.maciej.checkflix.frontend.domain.watchlist.ProvidersWatchlistDto;
 import com.maciej.checkflix.frontend.service.BackEndService;
 import com.maciej.checkflix.frontend.ui.AbstractMovieView;
 import com.maciej.checkflix.frontend.ui.MainLayout;
-import com.maciej.checkflix.frontend.ui.moviedetailsview.MovieDetailsView;
-import com.maciej.checkflix.frontend.ui.moviereviewsview.MovieReviewsView;
+import com.maciej.checkflix.frontend.ui.common.Divider;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.OptionalParameter;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
 import java.util.List;
 
@@ -29,6 +28,8 @@ public class WatchListView extends AbstractMovieView {
     private Grid watchlist = new Grid(ProvidersWatchlistDto.class);
     private List<String> availableCountryList;
     private ProviderWatchlistForm watchListForm;
+    private Button openFormDialogButton;
+    private Dialog formDialogWindow;
 
     public WatchListView(BackEndService backEndService) {
         super(backEndService);
@@ -40,16 +41,35 @@ public class WatchListView extends AbstractMovieView {
         removeAll();
 
         H1 header = setUpHeader();
+        Div description = addViewDescription();
         configureFilter();
         setUpForm();
+        addOpenFormButton();
         setupGrid();
 
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
-        horizontalLayout.add(watchlist, watchListForm);
-        horizontalLayout.setWidthFull();
-        horizontalLayout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        add(header, description, new Divider(), filterField, openFormDialogButton, watchlist);
+    }
 
-        add(header, filterField, horizontalLayout);
+    private Div addViewDescription() {
+        return new Div(
+                new Span("You can add current, or any other movie or tv show to a watchlist. " +
+                        "We will send you an email with notification about chosen title becoming available with a " +
+                        "given provider type in selected country.")
+        );
+    }
+
+    private void addOpenFormButton() {
+        openFormDialogButton = new Button("Add");
+
+        VerticalLayout vl = new VerticalLayout(new H3("Watchlist"), watchListForm);
+        vl.setAlignItems(Alignment.CENTER);
+        formDialogWindow = new Dialog(vl);
+
+        openFormDialogButton.addClickListener(event -> {
+            watchListForm.setImdbId(movieImdbId);
+            watchListForm.setCountry(backEndService.checkUserCountryName());
+            formDialogWindow.open();
+        });
     }
 
     private void setUpForm() {
@@ -58,12 +78,20 @@ public class WatchListView extends AbstractMovieView {
 
         watchListForm.addListener(ProviderWatchlistForm.SaveEvent.class, e -> {
             updateExistingEntry(e.getProvidersWatchlistDto());
+            formDialogWindow.close();
         });
 
         watchListForm.addListener(ProviderWatchlistForm.ClearEvent.class, e -> {
             watchListForm.clearForm();
             watchListForm.setSaveButtonToAdd();
             watchlist.deselectAll();
+        });
+
+        watchListForm.addListener(ProviderWatchlistForm.CloseEvent.class, e -> {
+            watchListForm.clearForm();
+            watchListForm.setSaveButtonToAdd();
+            watchlist.deselectAll();
+            formDialogWindow.close();
         });
 
         watchListForm.setImdbId(movieImdbId);
@@ -100,6 +128,7 @@ public class WatchListView extends AbstractMovieView {
         watchlist.asSingleSelect().addValueChangeListener(evt -> {
             editEntry((ProvidersWatchlistDto) evt.getValue());
             watchListForm.setSaveButtonToUpdate();
+            formDialogWindow.open();
         });
 
         VerticalLayout verticalLayout = new VerticalLayout();

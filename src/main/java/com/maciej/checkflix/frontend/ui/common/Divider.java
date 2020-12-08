@@ -1,4 +1,4 @@
-package com.maciej.checkflix.frontend.ui.movieprovidersview.utils;
+package com.maciej.checkflix.frontend.ui.common;
 
 import com.vaadin.flow.component.html.Span;
 

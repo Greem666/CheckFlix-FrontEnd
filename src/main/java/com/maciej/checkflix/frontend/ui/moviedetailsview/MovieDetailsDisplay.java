@@ -1,6 +1,7 @@
 package com.maciej.checkflix.frontend.ui.moviedetailsview;
 
 import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
+import com.maciej.checkflix.frontend.ui.common.Divider;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -10,6 +11,8 @@ public class MovieDetailsDisplay extends VerticalLayout {
 
     public MovieDetailsDisplay(MovieDetailsDto movieDetailsDto) {
         H1 title = new H1(movieDetailsDto.getTitle());
+
+        Divider divider = new Divider();
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
 
@@ -37,6 +40,6 @@ public class MovieDetailsDisplay extends VerticalLayout {
 
         horizontalLayout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 
-        add(title, horizontalLayout);
+        add(title, divider, horizontalLayout);
     }
 }

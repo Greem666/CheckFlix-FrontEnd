@@ -29,6 +29,7 @@ public class ProviderWatchlistForm extends FormLayout {
 
     Button saveButton = new Button("Save");
     Button clearButton = new Button("Clear");
+    Button closeButton = new Button("Close");
 
     Binder<ProvidersWatchlistDto> providerWatchlistBinder = new Binder<>(ProvidersWatchlistDto.class);
 
@@ -58,7 +59,8 @@ public class ProviderWatchlistForm extends FormLayout {
         HorizontalLayout buttonsHBar = new HorizontalLayout();
         buttonsHBar.add(
                 saveButton,
-                clearButton
+                clearButton,
+                closeButton
         );
         buttonsHBar.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
 
@@ -74,6 +76,10 @@ public class ProviderWatchlistForm extends FormLayout {
 
         clearButton.addClickListener(e -> {
             fireEvent(new ClearEvent(this, providerWatchlistBinder.getBean()));
+        });
+
+        closeButton.addClickListener(e -> {
+            fireEvent(new CloseEvent(this, providerWatchlistBinder.getBean()));
         });
     }
 
@@ -206,6 +212,16 @@ public class ProviderWatchlistForm extends FormLayout {
         this.imdbId.setValue(imdbId);
     }
 
+    public List<String> getAvailableCountries() {
+        return availableCountries;
+    }
+
+    public void setCountry(String countryName) {
+        if (availableCountries.contains(countryName)) {
+            country.setValue(countryName);
+        }
+    }
+
     public static abstract class ProviderWatchlistFormEvent extends ComponentEvent<ProviderWatchlistForm> {
         private ProvidersWatchlistDto providersWatchlistDto;
 
@@ -227,6 +243,12 @@ public class ProviderWatchlistForm extends FormLayout {
 
     public static class ClearEvent extends ProviderWatchlistFormEvent {
         public ClearEvent(ProviderWatchlistForm source, ProvidersWatchlistDto providersWatchlistDto) {
+            super(source, providersWatchlistDto);
+        }
+    }
+
+    public static class CloseEvent extends ProviderWatchlistFormEvent {
+        public CloseEvent(ProviderWatchlistForm source, ProvidersWatchlistDto providersWatchlistDto) {
             super(source, providersWatchlistDto);
         }
     }

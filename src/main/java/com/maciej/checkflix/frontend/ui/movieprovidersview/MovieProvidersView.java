@@ -1,18 +1,13 @@
 package com.maciej.checkflix.frontend.ui.movieprovidersview;
 
-import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import com.maciej.checkflix.frontend.domain.MovieProviders.CountryResultDto;
 import com.maciej.checkflix.frontend.domain.MovieProviders.ProviderDetailsDto;
 import com.maciej.checkflix.frontend.service.BackEndService;
 import com.maciej.checkflix.frontend.ui.AbstractMovieView;
 import com.maciej.checkflix.frontend.ui.MainLayout;
-import com.maciej.checkflix.frontend.ui.moviedetailsview.MovieDetailsView;
-import com.maciej.checkflix.frontend.ui.movieprovidersview.utils.Divider;
+import com.maciej.checkflix.frontend.ui.common.Divider;
 import com.maciej.checkflix.frontend.ui.movieprovidersview.utils.ProviderLinkFactory;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.accordion.Accordion;
-import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,7 +19,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Route(value = "providers", layout = MainLayout.class)
