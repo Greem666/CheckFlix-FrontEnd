@@ -7,6 +7,7 @@ import com.maciej.checkflix.frontend.service.BackEndService;
 import com.maciej.checkflix.frontend.ui.AbstractMovieView;
 import com.maciej.checkflix.frontend.ui.MainLayout;
 import com.maciej.checkflix.frontend.ui.moviedetailsview.MovieDetailsView;
+import com.maciej.checkflix.frontend.ui.movieprovidersview.utils.Divider;
 import com.maciej.checkflix.frontend.ui.movieprovidersview.utils.ProviderLinkFactory;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
@@ -43,7 +44,10 @@ public class MovieProvidersView extends AbstractMovieView {
         removeAll();
 
         setUpHeader();
+        addSectionDescription();
         addCountrySelector();
+
+        addDividingLine();
 
         addProviderPanels(backEndService.getLocalProviders(movieImdbId, availableCountries.getValue()));
     }
@@ -53,20 +57,37 @@ public class MovieProvidersView extends AbstractMovieView {
         add(header);
     }
 
+    private void addSectionDescription() {
+        Div description = new Div(
+                new Span("Click below to check availability of " + movieTitle + " in a country of your choice.")
+        );
+        add(description);
+    }
+
+    private void addDividingLine() {
+        add(new Divider());
+    }
+
     private void addCountrySelector() {
-        if (availableCountries == null) {
-            List<String> availableCountryList = backEndService.getSupportedCountryProvidersList();
-            availableCountries = new ComboBox<>();
-            availableCountries.setItems(availableCountryList);
+        List<String> availableCountryList = backEndService.getSupportedCountryProvidersList();
+        availableCountries = new ComboBox<>();
+        availableCountries.setItems(availableCountryList);
+
+        String countryName = backEndService.checkUserCountryName();
+
+        if (availableCountryList.contains(countryName)) {
+            availableCountries.setValue(countryName);
+        } else {
             availableCountries.setValue(availableCountryList.get(0));
-            availableCountries.setLabel("Country");
-
-            availableCountries.addValueChangeListener(e -> {
-                addProviderPanels(backEndService.getLocalProviders(movieImdbId, availableCountries.getValue()));
-            });
-
-            add(availableCountries);
         }
+
+        availableCountries.setLabel("Country");
+
+        availableCountries.addValueChangeListener(e -> {
+            addProviderPanels(backEndService.getLocalProviders(movieImdbId, availableCountries.getValue()));
+        });
+
+        add(availableCountries);
     }
 
     private void addProviderPanels(CountryResultDto availableProviders) {

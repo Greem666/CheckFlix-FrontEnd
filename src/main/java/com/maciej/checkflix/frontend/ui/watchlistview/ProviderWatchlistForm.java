@@ -11,18 +11,12 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.data.validator.EmailValidator;
-import com.vaadin.flow.data.value.HasValueChangeMode;
 import com.vaadin.flow.shared.Registration;
-import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.function.DoubleToLongFunction;
 
 public class ProviderWatchlistForm extends FormLayout {
     IntegerField id = new IntegerField();
@@ -129,10 +123,17 @@ public class ProviderWatchlistForm extends FormLayout {
         country.setPlaceholder("country");
 
         availableCountries = backEndService.getSupportedCountryProvidersList();
-
         country.setItems(availableCountries);
+        setProviderCountryToUserLocation();
 
         return country;
+    }
+
+    private void setProviderCountryToUserLocation() {
+        String countryName = backEndService.checkUserCountryName();
+        if (availableCountries.contains(countryName)) {
+            country.setValue(countryName);
+        }
     }
 
     private Component createProviderTypesField() {
@@ -184,10 +185,9 @@ public class ProviderWatchlistForm extends FormLayout {
         this.imdbId.setValue("");
         this.movieName.setValue("");
         this.country.setValue("");
+        setProviderCountryToUserLocation();
 
         bindFields();
-
-//        binder.valid
     }
 
     public void setSaveButtonToAdd() {

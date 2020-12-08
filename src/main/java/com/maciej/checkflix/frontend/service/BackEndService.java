@@ -1,9 +1,7 @@
 package com.maciej.checkflix.frontend.service;
 
-import com.maciej.checkflix.frontend.client.MoviesBackEndClient;
-import com.maciej.checkflix.frontend.client.ProvidersBackEndClient;
-import com.maciej.checkflix.frontend.client.ReviewAnalyticsBackEndClient;
-import com.maciej.checkflix.frontend.client.WatchlistBackEndClient;
+import com.maciej.checkflix.frontend.client.*;
+import com.maciej.checkflix.frontend.domain.ClientLocation.IpApiDto;
 import com.maciej.checkflix.frontend.domain.MovieDetails.MovieDetailsDto;
 import com.maciej.checkflix.frontend.domain.MovieProviders.CountryResultDto;
 import com.maciej.checkflix.frontend.domain.MovieReviews.ReviewResultDto;
@@ -22,6 +20,7 @@ public class BackEndService {
     private final ProvidersBackEndClient providersBackEndClient;
     private final WatchlistBackEndClient watchlistBackEndClient;
     private final ReviewAnalyticsBackEndClient reviewAnalyticsBackEndClient;
+    private final LocationClient locationClient;
 
     public List<MovieDto> getMoviesBy(String name, String year, String type) {
         return moviesBackEndClient.getMoviesBy(name, year, type);
@@ -93,5 +92,10 @@ public class BackEndService {
 
     public void prepareCachedImdbReviewsFor(String movieImdbId) {
         moviesBackEndClient.prepareCachedImdbReviewsFor(movieImdbId);
+    }
+
+    public String checkUserCountryName() {
+        IpApiDto countryCheckResult = locationClient.checkCountryName();
+        return countryCheckResult.getStatus().equals("success") ? countryCheckResult.getCountry() : "";
     }
 }

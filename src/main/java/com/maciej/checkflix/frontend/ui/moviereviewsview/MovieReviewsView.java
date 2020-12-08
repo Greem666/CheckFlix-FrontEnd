@@ -13,6 +13,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -44,8 +45,12 @@ public class MovieReviewsView extends AbstractMovieView {
     }
 
     private void addReviewPanels(List<ReviewResultDto> reviewList) {
-        for (ReviewResultDto review: reviewList) {
-            addReviewPanel(review);
+        if (reviewList.isEmpty()) {
+            add(new H3("No TMDB reviews were found."));
+        } else {
+            for (ReviewResultDto review: reviewList) {
+                addReviewPanel(review);
+            }
         }
     }
 
